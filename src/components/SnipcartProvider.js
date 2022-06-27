@@ -8,20 +8,21 @@ const SnipcartProvider = props => {
   const [state, dispatch] = useStore();
   const {defaultLang, locales} = props;
   const changeLanguage = lang => {
-    const lng = locales[defaultLang] || {};
+    const lng = locales[lang] || {};
     window.Snipcart?.api.session.setLanguage(lang, lng);
   };
   React.useEffect(() => {
+    const currentLang = document.querySelector('html').lang || defaultLang;
     const listenSnipcart = () => {
       document.addEventListener('snipcart.ready', () => {
         dispatch({type: 'setReady', payload: true});
-        changeLanguage(defaultLang);
+        changeLanguage(currentLang);
       });
     };
 
     if (window.Snipcart !== undefined) {
       dispatch({type: 'setReady', payload: true});
-      changeLanguage(defaultLang);
+      changeLanguage(currentLang);
     } else {
       listenSnipcart();
     }

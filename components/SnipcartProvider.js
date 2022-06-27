@@ -24,18 +24,20 @@ var SnipcartProvider = function SnipcartProvider(props) {
   var changeLanguage = function changeLanguage(lang) {
     var _window$Snipcart;
 
-    var lng = locales[defaultLang] || {};
+    var lng = locales[lang] || {};
     (_window$Snipcart = window.Snipcart) === null || _window$Snipcart === void 0 ? void 0 : _window$Snipcart.api.session.setLanguage(lang, lng);
   };
 
   React.useEffect(function () {
+    var currentLang = document.querySelector('html').lang || defaultLang;
+
     var listenSnipcart = function listenSnipcart() {
       document.addEventListener('snipcart.ready', function () {
         dispatch({
           type: 'setReady',
           payload: true
         });
-        changeLanguage(defaultLang);
+        changeLanguage(currentLang);
       });
     };
 
@@ -44,7 +46,7 @@ var SnipcartProvider = function SnipcartProvider(props) {
         type: 'setReady',
         payload: true
       });
-      changeLanguage(defaultLang);
+      changeLanguage(currentLang);
     } else {
       listenSnipcart();
     }
