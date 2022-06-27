@@ -2,6 +2,7 @@ const React = require("react");
 const SnipcartStyles = require("./components/SnipcartStyles");
 const Snipcart = require("./components/Snipcart");
 const SnipcartProvider = require("./components/SnipcartProvider").default;
+const Script = require("gatsby").Script;
 
 const GATSBY_SNIPCART_API_KEY = process.env.GATSBY_SNIPCART_API_KEY;
 
@@ -9,7 +10,7 @@ const GATSBY_SNIPCART_API_KEY = process.env.GATSBY_SNIPCART_API_KEY;
  * insert script, style and tag in body on ssr render
  * @param options : {currency, version}
  */
-exports.onRenderBody = ({ setPostBodyComponents }, pluginOptions = {}) => {
+exports.onRenderBody = ({setPostBodyComponents}, pluginOptions = {}) => {
   const _options = {
     ...{
       version: "3.0.29",
@@ -47,15 +48,7 @@ exports.onRenderBody = ({ setPostBodyComponents }, pluginOptions = {}) => {
       templatesUrl={_options.templatesUrl}
     />,
     // insert style
-    <SnipcartStyles key="snipcart-style" version={_options.version} />,
-    // insert script
-    <script
-      key="snipcart-script"
-      defer
-      rel="preload"
-      as="script"
-      src={`https://cdn.snipcart.com/themes/v${_options.version}/default/snipcart.js`}
-    ></script>,
+    <SnipcartStyles key="snipcart-style" version={_options.version} />
   ];
 
   return setPostBodyComponents(components);
@@ -64,7 +57,7 @@ exports.onRenderBody = ({ setPostBodyComponents }, pluginOptions = {}) => {
 /**
  * wrapp app with provider for dispatch cart and customer infos
  */
-exports.wrapRootElement = ({ element }, pluginOptions = {}) => {
+exports.wrapRootElement = ({element}, pluginOptions = {}) => {
   const _options = {
     ...{
       version: "3.0.29",
@@ -73,5 +66,10 @@ exports.wrapRootElement = ({ element }, pluginOptions = {}) => {
     },
     ...pluginOptions,
   };
-  return <SnipcartProvider {..._options}>{element}</SnipcartProvider>;
+  return (<SnipcartProvider {..._options}>
+    {element}
+    <Script
+      key="snipcart-script"
+      src={`https://cdn.snipcart.com/themes/v${_options.version}/default/snipcart.js`}
+    /></SnipcartProvider>);
 };

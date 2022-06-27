@@ -3,7 +3,7 @@
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
 exports.__esModule = true;
-exports.useStore = exports.SnipcartContext = exports.initialState = void 0;
+exports.useStore = exports.initialState = exports.SnipcartContext = void 0;
 
 var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
 

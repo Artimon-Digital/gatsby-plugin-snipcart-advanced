@@ -22,8 +22,10 @@ var SnipcartProvider = function SnipcartProvider(props) {
       locales = props.locales;
 
   var changeLanguage = function changeLanguage(lang) {
+    var _window$Snipcart;
+
     var lng = locales[defaultLang] || {};
-    window.Snipcart.api.session.setLanguage(lang, lng);
+    (_window$Snipcart = window.Snipcart) === null || _window$Snipcart === void 0 ? void 0 : _window$Snipcart.api.session.setLanguage(lang, lng);
   };
 
   React.useEffect(function () {
