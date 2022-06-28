@@ -2,7 +2,6 @@ const React = require("react");
 const SnipcartStyles = require("./components/SnipcartStyles");
 const Snipcart = require("./components/Snipcart");
 const SnipcartProvider = require("./components/SnipcartProvider").default;
-const Script = require("gatsby").Script;
 
 const GATSBY_SNIPCART_API_KEY = process.env.GATSBY_SNIPCART_API_KEY;
 
@@ -57,7 +56,7 @@ exports.onRenderBody = ({setPostBodyComponents}, pluginOptions = {}) => {
 /**
  * wrapp app with provider for dispatch cart and customer infos
  */
-exports.wrapRootElement = ({element, pathname}, pluginOptions = {}) => {
+exports.wrapRootElement = ({element}, pluginOptions = {}) => {
   const _options = {
     ...{
       version: "3.0.29",
@@ -66,14 +65,9 @@ exports.wrapRootElement = ({element, pathname}, pluginOptions = {}) => {
     },
     ...pluginOptions,
   };
-  const _shouldLoadSnipcart = pathname.includes(_options.exclude);
   return (
     <SnipcartProvider {..._options}>
       {element}
-      {_shouldLoadSnipcart ? <Script
-        key="snipcart-script"
-        src={`https://cdn.snipcart.com/themes/v${_options.version}/default/snipcart.js`}
-      /> : null}
     </SnipcartProvider>
   );
 };

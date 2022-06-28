@@ -12,8 +12,6 @@ var Snipcart = require("./components/Snipcart");
 
 var SnipcartProvider = require("./components/SnipcartProvider").default;
 
-var Script = require("gatsby").Script;
-
 var GATSBY_SNIPCART_API_KEY = process.env.GATSBY_SNIPCART_API_KEY;
 /**
  * insert script, style and tag in body on ssr render
@@ -70,8 +68,7 @@ exports.onRenderBody = function (_ref, pluginOptions) {
 
 
 exports.wrapRootElement = function (_ref2, pluginOptions) {
-  var element = _ref2.element,
-      pathname = _ref2.pathname;
+  var element = _ref2.element;
 
   if (pluginOptions === void 0) {
     pluginOptions = {};
@@ -83,10 +80,5 @@ exports.wrapRootElement = function (_ref2, pluginOptions) {
     defaultLang: "en"
   }, pluginOptions);
 
-  var _shouldLoadSnipcart = pathname.includes(_options.exclude);
-
-  return /*#__PURE__*/React.createElement(SnipcartProvider, _options, element, _shouldLoadSnipcart ? /*#__PURE__*/React.createElement(Script, {
-    key: "snipcart-script",
-    src: "https://cdn.snipcart.com/themes/v" + _options.version + "/default/snipcart.js"
-  }) : null);
+  return /*#__PURE__*/React.createElement(SnipcartProvider, _options, element);
 };
