@@ -68,7 +68,8 @@ exports.onRenderBody = function (_ref, pluginOptions) {
 
 
 exports.wrapRootElement = function (_ref2, pluginOptions) {
-  var element = _ref2.element;
+  var element = _ref2.element,
+      pathname = _ref2.pathname;
 
   if (pluginOptions === void 0) {
     pluginOptions = {};
@@ -80,5 +81,10 @@ exports.wrapRootElement = function (_ref2, pluginOptions) {
     defaultLang: "en"
   }, pluginOptions);
 
-  return /*#__PURE__*/React.createElement(SnipcartProvider, _options, element);
+  var _shouldLoadSnipcart = pathname === null || pathname === void 0 ? void 0 : pathname.includes(_options.include);
+
+  return /*#__PURE__*/React.createElement(SnipcartProvider, _options, element, _shouldLoadSnipcart ? /*#__PURE__*/React.createElement("script", {
+    key: "snipcart-script",
+    src: "https://cdn.snipcart.com/themes/v" + _options.version + "/default/snipcart.js"
+  }) : null);
 };
